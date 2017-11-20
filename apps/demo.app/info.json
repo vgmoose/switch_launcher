@@ -1,0 +1,9 @@
+{
+	"name": "Homebrew Title",
+	"description": "Homebrew description that takes up a couple of lines, about 4 at the most.",
+	"long_description": "A really long description of the homebrew, that can have line breaks and such.\nIn order to ensure that all instructions are properly followed in case there's more information that needs to be conveyed than can be in the short description",
+	"author": "Homebrew Author",
+	"url": "http://example.com",
+	"license": "Copyright 2017 All rights Reserved",
+	"source": "https://github.com/source"
+}

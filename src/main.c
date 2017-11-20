@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include "main.h"
 
 #include <unistd.h>
 #include <signal.h>
@@ -9,17 +10,46 @@
 const int WIN_WIDTH = 1280;
 const int WIN_HEIGHT = 720;
 
+//SDL_Texture* texTarget = 
+
 void intHandler(int dummy)
 {
+//	SDL_DestroyTexture(texTarget);
+//	SDL_DestroyTexture(bmpTex);
+//	SDL_DestroyRenderer(renderer);
+//	SDL_DestroyWindow(win);
+//	SDL_Quit();
+
 	// quit the program
 	exit(0);
 }
 
-int main(int argc, char **argv){
+
+int main(int argc, char **argv)
+{
+	// setup main window
+	init();
+
+	// attach interrupt handler
+	signal(SIGINT, intHandler);
+
+	while (1) { sleep(1000000000); }
+
+	return 0;
+}
+
+int WinMain(int argc, char* argv[])
+{
+	return main(argc, argv);
+}
+
+void init()
+{
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
 		printf("Some problem happened");
-		return 1;
+		return;
 	}
+
 	SDL_Window *win = SDL_CreateWindow("Switch-Inspired Launcher Template", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
 	SDL_Renderer *renderer = SDL_CreateRenderer(win, -1,
@@ -38,6 +68,7 @@ int main(int argc, char **argv){
 	SDL_SetRenderTarget(renderer, texTarget);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, bmpTex, NULL, NULL);
+
 	//Detach the texture
 	SDL_SetRenderTarget(renderer, NULL);
 
@@ -45,17 +76,4 @@ int main(int argc, char **argv){
 	SDL_RenderClear(renderer);
 	SDL_RenderCopyEx(renderer, texTarget, NULL, NULL, 0, NULL, 0);
 	SDL_RenderPresent(renderer);
-
-	// attach interrupt handler
-	signal(SIGINT, intHandler);
-
-	while (1) { sleep(1000000000); }
-
-//	SDL_Delay(1000);
-//	SDL_DestroyTexture(texTarget);
-//	SDL_DestroyTexture(bmpTex);
-//	SDL_DestroyRenderer(renderer);
-//	SDL_DestroyWindow(win);
-//	SDL_Quit();
-	return 0;
 }

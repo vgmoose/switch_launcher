@@ -1,0 +1,9 @@
+{
+	"name": "Another App",
+	"description": "This app gives you the ability to unlock everything, everywhere.",
+	"long_description": "A really long description of the homebrew, that can have line breaks and such.\nIn order to ensure that all instructions are properly followed in case there's more information that needs to be conveyed than can be in the short description",
+	"author": "Dog Man",
+	"url": "http://dogman.com",
+	"license": "GPLv3 License",
+	"source": "https://github.com/doggiedog"
+}

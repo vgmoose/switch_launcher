@@ -1,0 +1,9 @@
+{
+	"name": "Space Game NX",
+	"description": "Shoot rocks in space and stuff like that.",
+	"long_description": "The year is 201X. Hop aboard the H.Y.K.M. interstellar spaceship and defend your precious cargo from the oncoming pirates and naysayers! Use either joystick to move around and dodge enemies, and tap/hold on the screen to fire in the direction of the tap. You are the last hope for the Wii U homebrew scene!\nI had a lot of fun making this game and I hope you all enjoy my little generic space shooter homebrew! I love how the homebrew scene is starting to take off.",
+	"author": "vgmoose",
+	"url": "http://space.vgmoose.com",
+	"license": "MIT License",
+	"source": "https://github.com/vgmoose/space"
+}
