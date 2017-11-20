@@ -5,10 +5,8 @@
 #include <unistd.h>
 #include <signal.h>
 
-// based on https://gist.github.com/Twinklebear/8265888
-
-const int WIN_WIDTH = 1280;
-const int WIN_HEIGHT = 720;
+const int WIDTH = 1280;
+const int HEIGHT = 720;
 
 //SDL_Texture* texTarget = 
 
@@ -30,16 +28,17 @@ int main(int argc, char **argv)
 	// setup main window
 	init();
 
-	// attach interrupt handler
+	// attach interrupt handler (ctrl+C)
 	signal(SIGINT, intHandler);
 
+	// don't exit immediately
 	while (1) { sleep(1000000000); }
-
 	return 0;
 }
 
 int WinMain(int argc, char* argv[])
 {
+	// for windows compatibility
 	return main(argc, argv);
 }
 
@@ -51,7 +50,7 @@ void init()
 	}
 
 	SDL_Window *win = SDL_CreateWindow("Switch-Inspired Launcher Template", SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
+		SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
 	SDL_Renderer *renderer = SDL_CreateRenderer(win, -1,
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
@@ -62,7 +61,7 @@ void init()
 
 	//Make a target texture to render too
 	SDL_Texture *texTarget = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
-		SDL_TEXTUREACCESS_TARGET, WIN_WIDTH, WIN_HEIGHT);
+		SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT);
 	
 	//Now render to the texture
 	SDL_SetRenderTarget(renderer, texTarget);
