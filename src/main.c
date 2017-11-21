@@ -75,27 +75,36 @@ void json_read(char* app_name)
 			continue;
 
 		// read a string out
-		char* key = malloc(token.size+1);
-		strncpy(key, buffer + token.start, token.end - token.start);
+		int key_len = token.end - token.start;
+		char* key = malloc(key_len + 1);
+		strncpy(key, buffer + token.start, key_len);
+		key[key_len] = '\0';
+
+		printf("Checking %s...\n", key);
 
 		// if it's the author string
 		if (strcmp(key, "author") == 0)
 		{
+			printf("Found author key!\n");
 			free(key);
 
 			// grab the value of this key and break
-			author = malloc(tokens[x+1].size);
-			strncpy(author, buffer + tokens[x+1].start, tokens[x+1].end - tokens[x+1].start);
+			int author_len = tokens[x+1].end - tokens[x+1].start;
+			author = malloc(author_len + 1);
+			strncpy(author, buffer + tokens[x+1].start, author_len);
+			author[author_len] = '\0';
 			break;
 		}
 
 		// it wasn't the author, check the next key (skip this value)
 		free(key);
-		x++;
+		x += token.size;
 	}
 
 	if (author != NULL)
 		printf("Author: %s\n", author);
+	else
+		printf("No author found\n");
 
 	free(author);
 }
