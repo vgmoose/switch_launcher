@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <SDL2/SDL.h>
+
 #include "main.h"
+#include "../jsmn/jsmn.h"
+
 
 #include <unistd.h>
 #include <signal.h>
@@ -22,9 +26,85 @@ void intHandler(int dummy)
 	exit(0);
 }
 
+void json_read(char* app_name)
+{
+	char* buffer = NULL;
+	size_t size = 0;
+
+	// directory constants
+	char* apps = "apps/";
+	int APPS_LEN = 5;
+	char* info = "/info.json";
+	int INFO_LEN = 10;
+
+	// construct path
+	char* path = malloc(APPS_LEN + strlen(app_name) + INFO_LEN + 1);
+	strcpy(path, apps);
+	strcat(path, app_name);
+	strcat(path, info);
+
+	// load file on disk into memory
+	FILE* fp = fopen(path, "r");
+	fseek(fp, 0, SEEK_END);
+	size = ftell(fp);
+	rewind(fp);
+	buffer = malloc((size+1)*sizeof(*buffer));
+	fread(buffer, size, 1, fp);
+	buffer[size] = '\0';
+
+	// print contents
+	printf("%s\n", buffer);
+
+	// parse author name using jsmn
+	jsmn_parser p;
+	jsmntok_t tokens[100];
+	jsmn_init(&p);
+
+	char* author = NULL;
+
+	int val = jsmn_parse(&p, buffer, strlen(buffer), tokens, 100);
+	printf("%d tokens found\n", val);
+
+	for (int x=0; x<val; x++)
+	{
+		// read one token
+		jsmntok_t token = tokens[x];
+
+		// if it's not a string, keep going
+		if (token.type != JSMN_STRING)
+			continue;
+
+		// read a string out
+		char* key = malloc(token.size+1);
+		strncpy(key, buffer + token.start, token.end - token.start);
+
+		// if it's the author string
+		if (strcmp(key, "author") == 0)
+		{
+			free(key);
+
+			// grab the value of this key and break
+			author = malloc(tokens[x+1].size);
+			strncpy(author, buffer + tokens[x+1].start, tokens[x+1].end - tokens[x+1].start);
+			break;
+		}
+
+		// it wasn't the author, check the next key (skip this value)
+		free(key);
+		x++;
+	}
+
+	if (author != NULL)
+		printf("Author: %s\n", author);
+
+	free(author);
+}
+
 
 int main(int argc, char **argv)
 {
+	json_read("space.app");
+
 	// setup main window
 	init();
 
