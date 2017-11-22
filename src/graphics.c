@@ -43,7 +43,7 @@ void drawText_adv(struct graphics* self, int x, int y, int size, char* text)
 
 	SDL_Surface* surfaceMessage;
 	if (size == FONT_WRAP)
-		surfaceMessage = TTF_RenderText_Blended_Wrapped(self->fonts[FONT_WRAP], text, white, 525);
+		surfaceMessage = TTF_RenderText_Blended_Wrapped(self->fonts[FONT_WRAP], text, white, 490);
 	else
 		surfaceMessage = TTF_RenderText_Blended(self->fonts[size], text, white);
 

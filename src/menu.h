@@ -12,11 +12,6 @@ struct menu
 	char* author;			// author of selected app
 	int selected;			// currently selected app index
 
-	// graphic pieces for labels
-	SDL_Texture* name_g;
-	SDL_Texture* desc_g;
-	SDL_Texture* auth_g;
-
 	struct tile* apps;		// array of apps along the bottom
 	int apps_count;			// number of total apps (tiles)
 };

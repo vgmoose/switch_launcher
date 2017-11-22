@@ -9,7 +9,6 @@ void menu_init(struct menu* self)
 	// set all to NULL to free later
 	self->name = self->description = self->author = NULL;
 	self->apps = NULL;
-	self->name_g = self->desc_g = self->auth_g = NULL;
 
 	// no selected app by default
 	self->apps_count = 0;
@@ -155,6 +154,7 @@ void render_menu(struct menu* self, struct graphics* g)
 	int xIn = 200;
 	int yIn = 130;
 
+	// draw the text of the selected app
 	drawText_adv(g, xIn, yIn, FONT_LARGE, self->name);
 	drawText_adv(g, xIn, yIn + 70, FONT_WRAP, self->description);
 
@@ -164,6 +164,9 @@ void render_menu(struct menu* self, struct graphics* g)
 	strcat(authorString, self->author);
 	drawText_adv(g, xIn, yIn + 220, FONT_SMALL, authorString);
 	free(authorString);
+
+	SDL_Rect icon_rect = {.x = 800, .y = 100, .w = 256, .h = 256};
+	SDL_RenderCopy(g->renderer, self->apps[self->selected].icon_g, NULL, &icon_rect);
 	
 	// render all app tile icons
 	for (int x=0; x<self->apps_count; x++)
