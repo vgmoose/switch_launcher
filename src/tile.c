@@ -46,7 +46,7 @@ int is_valid_app(struct dirent* entry)
 {
 	// valid app if it's a directory and ends with '.app'
 	// TODO: add more validation criteria here
-	return (entry->d_type == DT_DIR && ends_with(entry->d_name, APP_SUFFIX));
+	return (/*entry->d_type == DT_DIR &&*/ ends_with(entry->d_name, APP_SUFFIX));
 }
 
 void render_tile(struct tile* self, struct graphics* g, int selected)
