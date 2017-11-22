@@ -33,6 +33,7 @@ void list_apps(struct menu* self, struct graphics* g)
 
 	// rewind directory, then go through it again to create the app tiles
 	rewinddir(dir);
+	entry = readdir(dir);
 
 	// allocate memory for list of apps array
 	self->apps = malloc(sizeof(struct tile)*self->apps_count);
@@ -108,7 +109,6 @@ void display_app(struct menu* self)
 
 		// references to corresponding menu components (values and labels) we're interested in
 		char** target_vals[3] = {&self->name, &self->description, &self->author};
-		SDL_Texture** target_labels[3] = {&self->name_g, &self->desc_g, &self->auth_g};
 
 		for (int y=0; y<3; y++)
 		{
@@ -126,9 +126,6 @@ void display_app(struct menu* self)
 				target = malloc(targ_len + 1);
 				strncpy(target, buffer + tokens[x+1].start, targ_len);
 				target[targ_len] = '\0';
-
-				// update the display
-				//update_label(&target_labels[y], target);
 			}
 		}
 
@@ -149,6 +146,13 @@ void render_menu(struct menu* self, struct graphics* g)
 	clear(g);
 
 	// TODO: draw main interface + apps
+	//drawText(g, 100, 100, self->name);
+	
+	// render all app tile icons
+	for (int x=0; x<self->apps_count; x++)
+	{
+		render_tile(&self->apps[x], g);
+	}
 	
 	// commit the changes to the screen
 	repaint(g);
