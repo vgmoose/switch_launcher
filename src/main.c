@@ -37,14 +37,10 @@ int main(int argc, char **argv)
 	SDL_Event event;
 
 	int running = 1;
-	int lastEvent;
 
 	while (running)
 	{
-		SDL_PollEvent(&event);
-
-		if (event.type == lastEvent)	// no repeat events (TODO: for now)
-			continue;
+		SDL_WaitEvent(&event);
 
 		if (event.type == SDL_QUIT)
 			running = 0;
@@ -53,7 +49,6 @@ int main(int argc, char **argv)
 			process_key(&main_menu, event.key.keysym.sym);
 
 		render_menu(&main_menu, &g);
-		lastEvent = event.type;
 	}
 
 	return 0;

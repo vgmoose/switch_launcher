@@ -7,6 +7,7 @@ struct graphics
 {
 	SDL_Window* window;		// main window
 	SDL_Renderer* renderer;		// main canvas	
+	TTF_Font* font;
 };
 
 void graphics_init(struct graphics* self);

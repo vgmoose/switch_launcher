@@ -158,7 +158,7 @@ void render_menu(struct menu* self, struct graphics* g)
 	// render all app tile icons
 	for (int x=0; x<self->apps_count; x++)
 	{
-		render_tile(&self->apps[x], g);
+		render_tile(&self->apps[x], g, self->selected);
 	}
 	
 	// commit the changes to the screen

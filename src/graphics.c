@@ -24,6 +24,7 @@ void graphics_init(struct graphics* self)
 	repaint(self);
 
 	TTF_Init();
+	self->font = TTF_OpenFont("res/overpass.otf", 40);
 
 //	
 //	SDL_RenderClear(renderer);
@@ -47,13 +48,17 @@ void repaint(struct graphics* self)
 void drawText(struct graphics* self, int x, int y, char* text)
 {
 	// Draw some text
-	TTF_Font* sans = TTF_OpenFont("res/overpass.otf", 40);
 	SDL_Color white = {0xff, 0xff, 0xff};
-	SDL_Surface* surfaceMessage = TTF_RenderText_Blended(sans, text, white);
+	SDL_Surface* surfaceMessage = TTF_RenderText_Blended(self->font, text, white);
 	SDL_Texture* message = SDL_CreateTextureFromSurface(self->renderer, surfaceMessage);
 	int w, h;
 	SDL_QueryTexture(message, NULL, NULL, &w, &h);
 	SDL_Rect message_rect = {.x = x, .y = y, .w = w, .h = h}; //create a rect
 
 	SDL_RenderCopy(self->renderer, message, NULL, &message_rect);
+
+	SDL_FreeSurface(surfaceMessage);
+	//SDL_FreeTexture(message);
+
+
 }

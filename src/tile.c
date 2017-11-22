@@ -26,11 +26,20 @@ void tile_init(struct tile* self, struct graphics* g, char* path, int index)
 	SDL_FreeSurface(bmpSurf);
 }
 
-void update_position(struct tile* self)
+void update_position(struct tile* self, int selected)
 {
 	// update the x-coordinate of this icon according to the menu
 	// current frame
-	self->x = 50 + self->index*ICON_WIDTH + self->index*SPACE_BETWEEN_ICONS;
+	self->x = 70 + self->index*ICON_WIDTH + self->index*SPACE_BETWEEN_ICONS;
+
+	if (selected != self->index)
+	{
+		// pad the spacing some more to account for this
+		int xOff = ((ICON_WIDTH*ICON_ACTIVE_SCALE) - ICON_WIDTH)/2;
+
+		// positive offset to the right, negative to the left
+		self->x += (self->index > selected)*xOff - (self->index < selected)*xOff;
+	}
 }
 
 int is_valid_app(struct dirent* entry)
@@ -40,11 +49,25 @@ int is_valid_app(struct dirent* entry)
 	return (entry->d_type == DT_DIR && ends_with(entry->d_name, APP_SUFFIX));
 }
 
-void render_tile(struct tile* self, struct graphics* g)
+void render_tile(struct tile* self, struct graphics* g, int selected)
 {
-	update_position(self);
+	int active = selected == self->index;
 
-	SDL_Rect icon_rect = {.x = self->x, .y = 400, .w = 128, .h = 128};
+	update_position(self, selected);
+
+	int xyOffset = 0;
+
+	int app_width = ICON_WIDTH;
+	if (active)
+	{
+		// make icon bigger if active
+		app_width *= ICON_ACTIVE_SCALE;
+
+		// offset the position a bit so that it grows from the center
+		xyOffset = -1*((app_width - ICON_WIDTH)/2);
+	}
+
+	SDL_Rect icon_rect = {.x = self->x + xyOffset, .y = 410 + xyOffset, .w = app_width, .h = app_width};
 	
 	//Now render the texture target to our screen, but upside down
 	SDL_RenderCopy(g->renderer, self->icon_g, NULL, &icon_rect);
