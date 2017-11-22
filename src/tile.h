@@ -16,11 +16,11 @@ struct tile
 {
 	char* path;		// path to .app folder
 	SDL_Texture* icon_g;	// icon from .app folder
-	int y;			// current y position of tile
+	int x;			// current x position of tile
 	int index;		// index of this tile in apps array
 };
 
 void tile_init(struct tile* self, struct graphics* g, char* path, int index);
 void update_position(struct tile* self);
 int is_valid_app(struct dirent* entry);
-
+void render_tile(struct tile* self, struct graphics* g);

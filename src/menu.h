@@ -25,3 +25,4 @@ void display_app(struct menu* self);
 void menu_init(struct menu* self);
 void list_apps(struct menu* self, struct graphics* g);
 void render_menu(struct menu* self, struct graphics* g);
+void process_key(struct menu* self, int keycode);

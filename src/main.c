@@ -34,8 +34,28 @@ int main(int argc, char **argv)
 	// attach interrupt handler (ctrl+C)
 	signal(SIGINT, intHandler);
 
-	// don't exit immediately
-	while (1) { sleep(1000000000); }
+	SDL_Event event;
+
+	int running = 1;
+	int lastEvent;
+
+	while (running)
+	{
+		SDL_PollEvent(&event);
+
+		if (event.type == lastEvent)	// no repeat events (TODO: for now)
+			continue;
+
+		if (event.type == SDL_QUIT)
+			running = 0;
+
+		if (event.type == SDL_KEYDOWN)
+			process_key(&main_menu, event.key.keysym.sym);
+
+		render_menu(&main_menu, &g);
+		lastEvent = event.type;
+	}
+
 	return 0;
 }
 

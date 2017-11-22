@@ -19,6 +19,9 @@ void menu_init(struct menu* self)
 void list_apps(struct menu* self, struct graphics* g)
 {
 	DIR *dir = opendir(APP_PATH);
+
+	if (!dir) // directory doesn't exist TODO: notify user
+		return;
 	
 	struct dirent *entry = readdir(dir);
 
@@ -50,6 +53,10 @@ void list_apps(struct menu* self, struct graphics* g)
 
 		entry = readdir(dir);
 	}
+
+	// if there's at least one app found, set the selected to the first app
+	if (self->apps_count > 0)
+		self->selected = 0;
 	
 	closedir(dir);
 }
@@ -124,11 +131,11 @@ void display_app(struct menu* self)
 				// grab the value of this key and break
 				int targ_len = tokens[x+1].end - tokens[x+1].start;
 				target = malloc(targ_len + 1);
+				*target_vals[y] = target;
 				strncpy(target, buffer + tokens[x+1].start, targ_len);
 				target[targ_len] = '\0';
 			}
 		}
-
 
 		// free current key, and continue onto next key (skip value)
 		free(cur_key);
@@ -146,7 +153,7 @@ void render_menu(struct menu* self, struct graphics* g)
 	clear(g);
 
 	// TODO: draw main interface + apps
-	//drawText(g, 100, 100, self->name);
+	drawText(g, 100, 100, self->name);
 	
 	// render all app tile icons
 	for (int x=0; x<self->apps_count; x++)
@@ -156,4 +163,16 @@ void render_menu(struct menu* self, struct graphics* g)
 	
 	// commit the changes to the screen
 	repaint(g);
+}
+
+void process_key(struct menu* self, int keycode)
+{
+	int selected = self->selected - (keycode == SDLK_LEFT) + (keycode == SDLK_RIGHT);
+
+	// updated selected index if it's within valid bounds
+	if (selected >= 0 && selected < self->apps_count)
+		self->selected = selected;
+
+	// update display
+	display_app(self);
 }

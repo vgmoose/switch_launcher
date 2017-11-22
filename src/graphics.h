@@ -12,3 +12,4 @@ struct graphics
 void graphics_init(struct graphics* self);
 void clear(struct graphics* self);
 void repaint(struct graphics* self);
+void drawText(struct graphics* self, int x, int y, char* text);
