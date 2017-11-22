@@ -1,18 +1,67 @@
+#include <dirent.h>
+#include <stdio.h>
 #include "menu.h"
+#include "utils.h"
+#include "tile.h"
 
-void menu_init(struct menu* self, struct graphics* g)
+void menu_init(struct menu* self)
 {
 	// set all to NULL to free later
-	self->name = self->description = self->author = NULL;
+	self->name = self->description = self->author;
+	self->apps = NULL;
+	self->name_g = self->desc_g = self->auth_g = NULL;
 
-	// connect graphics
-	self->g = g;
+	// no selected app by default
+	self->apps_count = 0;
+	self->selected = -1;
 }
 
-void display_app(struct menu* self, char* app_path, int selected)
+void list_apps(struct menu* self, struct graphics* g)
+{
+	DIR *dir = opendir(APP_PATH);
+	
+	struct dirent *entry = readdir(dir);
+
+	// find valid apps to count them up
+	while (entry != NULL)
+	{
+		if (is_valid_app(entry))
+			self->apps_count ++;
+
+		entry = readdir(dir);
+	}
+
+	// rewind directory, then go through it again to create the app tiles
+	rewinddir(dir);
+
+	// allocate memory for list of apps array
+	self->apps = malloc(sizeof(struct tile)*self->apps_count);
+
+	int count = 0;
+	while (entry != NULL)
+	{
+		if (is_valid_app(entry))
+		{
+			// create an app tile
+			tile_init(&self->apps[count], g, entry->d_name, count);
+			count ++;
+		}
+
+		entry = readdir(dir);
+	}
+	
+	closedir(dir);
+}
+
+void display_app(struct menu* self)
 {
 	char* buffer = NULL;
 	size_t size = 0;
+
+	if (self->selected < 0 || self->apps_count <= 0) // no valid apps, nothing to render TODO: display a message
+		return;
+
+	char* app_path = self->apps[self->selected].path;
 
 	// directory constants
 	const char* info = "/info.json";

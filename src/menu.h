@@ -10,18 +10,18 @@ struct menu
 	char* name;			// app name parsed from json
 	char* description;		// app (short) description
 	char* author;			// author of selected app
-	int current;			// currently selected app index
+	int selected;			// currently selected app index
 
 	// graphic pieces for labels
 	SDL_Texture* name_g;
 	SDL_Texture* desc_g;
 	SDL_Texture* auth_g;
 
-	struct graphics* g;		// reference to main graphics struct
-
-	struct tile* apps;		// all apps along the bottom
+	struct tile* apps;		// array of apps along the bottom
+	int apps_count;			// number of total apps (tiles)
 };
 
-void display_app(struct menu* self, char* path, int selected);
-void menu_init(struct menu* self, struct graphics* g);
+void display_app(struct menu* self);
+void menu_init(struct menu* self);
+void list_apps(struct menu* self, struct graphics* g);
 void render_menu(struct menu* self, struct graphics* g);

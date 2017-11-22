@@ -14,18 +14,6 @@ void graphics_init(struct graphics* self)
 	self->window = SDL_CreateWindow("Switch-Inspired Launcher Template", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
 	self->renderer = SDL_CreateRenderer(self->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
-	//Put your own bmp image here
-//	SDL_Surface *bmpSurf = IMG_Load("apps/demo.app/icon.png");
-//	SDL_Texture *bmpTex = SDL_CreateTextureFromSurface(renderer, bmpSurf);
-//	SDL_FreeSurface(bmpSurf);
-//
-//	SDL_Texture *texTarget = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 128, 128);
-//	
-//	//Now render to the texture
-//	SDL_SetRenderTarget(renderer, texTarget);
-//	SDL_RenderClear(renderer);
-//	SDL_RenderCopy(renderer, bmpTex, NULL, NULL);
-
 	//Detach the texture
 	SDL_SetRenderTarget(self->renderer, NULL);
 

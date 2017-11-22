@@ -23,9 +23,13 @@ int main(int argc, char **argv)
 
 	// init main menu
 	struct menu main_menu;
-	menu_init(&main_menu, &g);
+	menu_init(&main_menu);
 
-	display_app(&main_menu, "apps/demo.app", 0);
+	// populate list of all apps (along bottom)
+	list_apps(&main_menu, &g);
+
+	// display info about the selected app
+	display_app(&main_menu);
 
 	// attach interrupt handler (ctrl+C)
 	signal(SIGINT, intHandler);

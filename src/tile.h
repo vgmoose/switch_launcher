@@ -1,5 +1,11 @@
 #include <SDL2/SDL.h>
 #include "graphics.h"
+#include <dirent.h>
+#include <stdio.h>
+
+static const char* APP_SUFFIX = ".app";
+static const char* APP_PATH = "apps/";
+#define APP_PATH_LEN 5
 
 #define ICON_WIDTH 128
 #define SPACE_BETWEEN_ICONS 20
@@ -9,9 +15,12 @@
 struct tile
 {
 	char* path;		// path to .app folder
-	SDL_Texture* icon;	// icon from .app folder
+	SDL_Texture* icon_g;	// icon from .app folder
 	int y;			// current y position of tile
 	int index;		// index of this tile in apps array
-
-	struct graphics* g;
 };
+
+void tile_init(struct tile* self, struct graphics* g, char* path, int index);
+void update_position(struct tile* self);
+int is_valid_app(struct dirent* entry);
+
