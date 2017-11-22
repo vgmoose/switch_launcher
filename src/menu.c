@@ -7,7 +7,9 @@
 void menu_init(struct menu* self)
 {
 	// set all to NULL to free later
-	self->name = self->description = self->author = NULL;
+	self->name = "No apps found!";
+	self->description = "Please check the \"apps\" folder, and ensure it contains .app bundles inside.";
+	self->author = NULL;
 	self->apps = NULL;
 
 	// no selected app by default
@@ -55,7 +57,10 @@ void list_apps(struct menu* self, struct graphics* g)
 
 	// if there's at least one app found, set the selected to the first app
 	if (self->apps_count > 0)
+	{
 		self->selected = 0;
+		self->name = self->description = NULL;
+	}
 	
 	closedir(dir);
 }
@@ -150,28 +155,32 @@ void render_menu(struct menu* self, struct graphics* g)
 {
 	// clear the rendering canvas
 	clear(g);
-
+	
 	int xIn = 200;
 	int yIn = 130;
 
 	// draw the text of the selected app
 	drawText_adv(g, xIn, yIn, FONT_LARGE, self->name);
 	drawText_adv(g, xIn, yIn + 70, FONT_WRAP, self->description);
-
-	const char* author = "Author: ";
-	char* authorString = malloc(strlen(self->author) + strlen(author) + 1);
-	strcpy(authorString, author);
-	strcat(authorString, self->author);
-	drawText_adv(g, xIn, yIn + 220, FONT_SMALL, authorString);
-	free(authorString);
-
-	SDL_Rect icon_rect = {.x = 800, .y = 100, .w = 256, .h = 256};
-	SDL_RenderCopy(g->renderer, self->apps[self->selected].icon_g, NULL, &icon_rect);
 	
-	// render all app tile icons
-	for (int x=0; x<self->apps_count; x++)
+	// if there's at least one app
+	if (self->selected >= 0 && self->apps_count > 0)
 	{
-		render_tile(&self->apps[x], g, self->selected);
+		const char* author = "Author: ";
+		char* authorString = malloc(strlen(self->author) + strlen(author) + 1);
+		strcpy(authorString, author);
+		strcat(authorString, self->author);
+		drawText_adv(g, xIn, yIn + 220, FONT_SMALL, authorString);
+		free(authorString);
+
+		SDL_Rect icon_rect = {.x = 800, .y = 100, .w = 256, .h = 256};
+		SDL_RenderCopy(g->renderer, self->apps[self->selected].icon_g, NULL, &icon_rect);
+
+		// render all app tile icons
+		for (int x=0; x<self->apps_count; x++)
+		{
+			render_tile(&self->apps[x], g, self->selected);
+		}
 	}
 	
 	// commit the changes to the screen

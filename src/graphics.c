@@ -24,6 +24,11 @@ void graphics_init(struct graphics* self)
 	self->fonts[FONT_LARGE] = TTF_OpenFont("res/overpass-bold.otf", 45);
 	self->fonts[FONT_WRAP]  = TTF_OpenFont("res/overpass.otf", 32);
 	self->fonts[FONT_SMALL] = TTF_OpenFont("res/overpass.otf", 20);
+	
+	if (self->fonts[FONT_LARGE] == NULL || self->fonts[FONT_SMALL] == NULL)
+	{
+		printf("[WARNING] Couldn't find res/overpass.otf or res/overpass-bold.otf! For now these files are required to display text.\n");
+	}
 }
 
 void clear(struct graphics* self)
@@ -40,6 +45,9 @@ void drawText_adv(struct graphics* self, int x, int y, int size, char* text)
 {
 	// Draw some text
 	SDL_Color white = {0xff, 0xff, 0xff};
+	
+	if (self->fonts[size] == NULL) 
+		return;
 
 	SDL_Surface* surfaceMessage;
 	if (size == FONT_WRAP)
