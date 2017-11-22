@@ -11,6 +11,8 @@ static const char* APP_PATH = "apps/";
 #define ICON_ACTIVE_SCALE 1.2
 #define SPACE_BETWEEN_ICONS 20
 
+#define YOFFSET 500
+
 #pragma once
 
 struct tile

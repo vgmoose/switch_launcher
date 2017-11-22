@@ -67,7 +67,7 @@ void render_tile(struct tile* self, struct graphics* g, int selected)
 		xyOffset = -1*((app_width - ICON_WIDTH)/2);
 	}
 
-	SDL_Rect icon_rect = {.x = self->x + xyOffset, .y = 410 + xyOffset, .w = app_width, .h = app_width};
+	SDL_Rect icon_rect = {.x = self->x + xyOffset, .y = YOFFSET + xyOffset, .w = app_width, .h = app_width};
 	
 	//Now render the texture target to our screen, but upside down
 	SDL_RenderCopy(g->renderer, self->icon_g, NULL, &icon_rect);

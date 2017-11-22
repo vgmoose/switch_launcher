@@ -7,7 +7,7 @@
 void menu_init(struct menu* self)
 {
 	// set all to NULL to free later
-	self->name = self->description = self->author;
+	self->name = self->description = self->author = NULL;
 	self->apps = NULL;
 	self->name_g = self->desc_g = self->auth_g = NULL;
 
@@ -152,8 +152,18 @@ void render_menu(struct menu* self, struct graphics* g)
 	// clear the rendering canvas
 	clear(g);
 
-	// TODO: draw main interface + apps
-	drawText(g, 100, 100, self->name);
+	int xIn = 200;
+	int yIn = 130;
+
+	drawText_adv(g, xIn, yIn, FONT_LARGE, self->name);
+	drawText_adv(g, xIn, yIn + 70, FONT_WRAP, self->description);
+
+	const char* author = "Author: ";
+	char* authorString = malloc(strlen(self->author) + strlen(author) + 1);
+	strcpy(authorString, author);
+	strcat(authorString, self->author);
+	drawText_adv(g, xIn, yIn + 220, FONT_SMALL, authorString);
+	free(authorString);
 	
 	// render all app tile icons
 	for (int x=0; x<self->apps_count; x++)

@@ -1,8 +1,5 @@
 #include "graphics.h"
 
-#define WIDTH 1280
-#define HEIGHT 720
-
 void graphics_init(struct graphics* self)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -24,15 +21,9 @@ void graphics_init(struct graphics* self)
 	repaint(self);
 
 	TTF_Init();
-	self->font = TTF_OpenFont("res/overpass.otf", 40);
-
-//	
-//	SDL_RenderClear(renderer);
-//
-//	SDL_Rect icon_rect = {.x = 200, .y = 200, .w = 128, .h = 128};
-//
-//	//Now render the texture target to our screen, but upside down
-//	SDL_RenderCopy(renderer, texTarget, NULL, &icon_rect);
+	self->fonts[FONT_LARGE] = TTF_OpenFont("res/overpass-bold.otf", 45);
+	self->fonts[FONT_WRAP]  = TTF_OpenFont("res/overpass.otf", 32);
+	self->fonts[FONT_SMALL] = TTF_OpenFont("res/overpass.otf", 20);
 }
 
 void clear(struct graphics* self)
@@ -45,11 +36,17 @@ void repaint(struct graphics* self)
 	SDL_RenderPresent(self->renderer);
 }
 
-void drawText(struct graphics* self, int x, int y, char* text)
+void drawText_adv(struct graphics* self, int x, int y, int size, char* text)
 {
 	// Draw some text
 	SDL_Color white = {0xff, 0xff, 0xff};
-	SDL_Surface* surfaceMessage = TTF_RenderText_Blended(self->font, text, white);
+
+	SDL_Surface* surfaceMessage;
+	if (size == FONT_WRAP)
+		surfaceMessage = TTF_RenderText_Blended_Wrapped(self->fonts[FONT_WRAP], text, white, 525);
+	else
+		surfaceMessage = TTF_RenderText_Blended(self->fonts[size], text, white);
+
 	SDL_Texture* message = SDL_CreateTextureFromSurface(self->renderer, surfaceMessage);
 	int w, h;
 	SDL_QueryTexture(message, NULL, NULL, &w, &h);
@@ -58,7 +55,9 @@ void drawText(struct graphics* self, int x, int y, char* text)
 	SDL_RenderCopy(self->renderer, message, NULL, &message_rect);
 
 	SDL_FreeSurface(surfaceMessage);
-	//SDL_FreeTexture(message);
+}
 
-
+void drawText(struct graphics* self, int x, int y, char* text)
+{
+	drawText_adv(self, x, y, FONT_LARGE, text);
 }
