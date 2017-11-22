@@ -1,10 +1,11 @@
 #include <SDL2/SDL.h>
 #include "../jsmn/jsmn.h"
-#include "app_tile.h"
+#include "tile.h"
+#include "graphics.h"
 
 #pragma once
 
-struct main_menu
+struct menu
 {
 	char* name;			// app name parsed from json
 	char* description;		// app (short) description
@@ -16,8 +17,11 @@ struct main_menu
 	SDL_Texture* desc_g;
 	SDL_Texture* auth_g;
 
-	struct app_tile* apps;		// all apps along the bottom
+	struct graphics* g;		// reference to main graphics struct
+
+	struct tile* apps;		// all apps along the bottom
 };
 
-void display_app(struct main_menu* self, char* path, int selected);
-void main_menu_init(struct main_menu* self);
+void display_app(struct menu* self, char* path, int selected);
+void menu_init(struct menu* self, struct graphics* g);
+void render_menu(struct menu* self, struct graphics* g);

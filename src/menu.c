@@ -1,19 +1,20 @@
-#include "main_menu.h"
+#include "menu.h"
 
-void main_menu_init(struct main_menu* self)
+void menu_init(struct menu* self, struct graphics* g)
 {
 	// set all to NULL to free later
 	self->name = self->description = self->author = NULL;
+
+	// connect graphics
+	self->g = g;
 }
 
-void display_app(struct main_menu* self, char* app_path, int selected)
+void display_app(struct menu* self, char* app_path, int selected)
 {
 	char* buffer = NULL;
 	size_t size = 0;
 
 	// directory constants
-//	const char* apps = "apps/";
-//	int APPS_LEN = strlen(apps);
 	const char* info = "/info.json";
 	int INFO_LEN = strlen(info);
 
@@ -56,7 +57,7 @@ void display_app(struct main_menu* self, char* app_path, int selected)
 		// names of keys that we are interested in
 		const char* target_keys[3] = {"name", "description", "author"};
 
-		// references to corresponding main_menu components (values and labels) we're interested in
+		// references to corresponding menu components (values and labels) we're interested in
 		char** target_vals[3] = {&self->name, &self->description, &self->author};
 		SDL_Texture** target_labels[3] = {&self->name_g, &self->desc_g, &self->auth_g};
 
@@ -91,4 +92,15 @@ void display_app(struct main_menu* self, char* app_path, int selected)
 	free(path);
 	free(buffer);
 
+}
+
+void render_menu(struct menu* self, struct graphics* g)
+{
+	// clear the rendering canvas
+	clear(g);
+
+	// TODO: draw main interface + apps
+	
+	// commit the changes to the screen
+	repaint(g);
 }

@@ -1,8 +1,8 @@
-#include "app_tile.h"
-#include "main_menu.h"
+#include "tile.h"
+#include "menu.h"
 #include "graphics.h"
 
-void update_position(struct graphics* g, struct app_tile* self)
+void update_position(struct graphics* g, struct tile* self)
 {
 	// update the y-coordinate of this icon according to the menu
 	// current frame
