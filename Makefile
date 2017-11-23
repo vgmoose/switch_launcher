@@ -1,6 +1,6 @@
 build:
 	# create linux/unix binary
-	gcc -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf jsmn/jsmn.c src/*.c -o switch_launcher
+	gcc -std=gnu11 -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf jsmn/jsmn.c src/*.c -o switch_launcher
 
 debug:
 	gcc -g -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf jsmn/jsmn.c src/*.c -o switch_launcher

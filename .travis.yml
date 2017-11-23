@@ -1,0 +1,15 @@
+language: c
+matrix:
+  include:
+    - os: linux
+    - os: osx
+addons:
+  apt:
+    packages:
+      - libsdl2-dev
+      - libsdl2-image-dev
+      - libsdl2-ttf-dev
+before_script:
+  # macos specific stuff
+  - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew install sdl2 sdl2-image sdl2-ttf; fi"
+script:  make
