@@ -1,6 +1,6 @@
 This is an open source template for a Switch inspired homebrew app launcher.  It's written in C with SDL2 as a dependency.
 
-![travis](https://travis-ci.org/vgmoose/switch_launcher.svg?branch=master)
+[![Build Status](https://travis-ci.org/vgmoose/switch_launcher.svg?branch=master)](https://travis-ci.org/vgmoose/switch_launcher)
 
 ### Dependencies
 - SDL2, SDL2_image (libpng, zlib), SDL2_ttf (freetype, bz2)
@@ -25,3 +25,6 @@ wine switch_launcher.exe
 
 ### License
 This software is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html). If you make derivatives of this software, please make the source code available.
+
+### Screen shot
+![screenshot](https://i.imgur.com/nshBeDX.png)
