@@ -1,4 +1,6 @@
-This is an open source template for a Switch inspired appliation launcher.  It's written in C with SDL2 as a dependency.
+This is an open source template for a Switch inspired homebrew app launcher.  It's written in C with SDL2 as a dependency.
+
+![travis](https://travis-ci.org/vgmoose/switch_launcher.svg?branch=master)
 
 ### Dependencies
 - SDL2, SDL2_image (libpng, zlib), SDL2_ttf (freetype, bz2)
