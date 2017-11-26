@@ -156,8 +156,8 @@ void render_menu(struct menu* self, struct graphics* g)
 	// clear the rendering canvas
 	clear(g);
 	
-	int xIn = 200;
-	int yIn = 130;
+	int xIn = 201;
+	int yIn = 155;
 
 	// draw the text of the selected app
 	drawText_adv(g, xIn, yIn, FONT_LARGE, self->name);
@@ -173,7 +173,7 @@ void render_menu(struct menu* self, struct graphics* g)
 		drawText_adv(g, xIn, yIn + 220, FONT_SMALL, authorString);
 		free(authorString);
 
-		SDL_Rect icon_rect = {.x = 800, .y = 100, .w = 256, .h = 256};
+		SDL_Rect icon_rect = {.x = 760, .y = 145, .w = FULL_ICON_WIDTH, .h = FULL_ICON_HEIGHT};
 		SDL_RenderCopy(g->renderer, self->apps[self->selected].icon_g, NULL, &icon_rect);
 
 		// render all app tile icons

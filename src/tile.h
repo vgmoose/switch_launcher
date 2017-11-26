@@ -7,11 +7,13 @@ static const char* APP_SUFFIX = ".app";
 static const char* APP_PATH = "apps/";
 #define APP_PATH_LEN 5
 
-#define ICON_WIDTH 160
+#define ICON_WIDTH 140
+#define FULL_ICON_WIDTH 300
+#define FULL_ICON_HEIGHT 210
 #define ICON_ACTIVE_SCALE 1.2
 #define SPACE_BETWEEN_ICONS 20
 
-#define YOFFSET 500
+#define YOFFSET 480
 
 #pragma once
 

@@ -6,6 +6,36 @@ This is an open source template for a Switch inspired homebrew app launcher.  It
 - SDL2, SDL2_image (libpng, zlib), SDL2_ttf (freetype, bz2)
 - jsmn (included) json library
 
+### App info
+App bundles should go in the "apps" folder relative to the main binary.
+
+An app bundle is a folder with a name ending in ".app". Currently, it should have the following structure:
+```
+demo.app
+├── icon.png
+├── info.json
+└── boot.nro
+```
+
+The layout is based on the [Homebrew Channel's layout](http://wiibrew.org/wiki/Homebrew_Channel#Configuring_Applications).
+
+The `icon.png` should be a 300x210 PNG file.
+
+The layout of `info.json` is as follows, no fields are mandatory:
+```
+{
+	"name": "Homebrew Title",
+	"description": "Homebrew description that takes up a couple of lines, about 4 at the most.",
+	"long_description": "A really long description of the homebrew, that can have line breaks and such.\nIn order to ensure that all instructions are properly followed in case there's more information that needs to be conveyed than can be in the short description",
+	"author": "Homebrew Author",
+	"url": "http://example.com",
+	"license": "MIT License",
+	"source": "https://github.com/author/source"
+}
+
+`boot.nro` is a .nro file built by [libtransistor](https://github.com/reswitched/libtransistor). This is only a proposed file name/format, and is currently ignored by this template.
+```
+
 ### Building
 The below should build and run a `switch_launcher` executable:
 ```

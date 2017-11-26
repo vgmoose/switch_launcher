@@ -67,8 +67,11 @@ void render_tile(struct tile* self, struct graphics* g, int selected)
 		xyOffset = -1*((app_width - ICON_WIDTH)/2);
 	}
 
+	// line view uses 140x140 icons, cropped out of the center
 	SDL_Rect icon_rect = {.x = self->x + xyOffset, .y = YOFFSET + xyOffset, .w = app_width, .h = app_width};
 	
+	SDL_Rect icon_crop = {.x = (FULL_ICON_WIDTH - ICON_WIDTH*1.5)/2, .y = (FULL_ICON_HEIGHT - ICON_WIDTH*1.5)/2, .w = ICON_WIDTH*1.5, .h = ICON_WIDTH*1.5};
+	
 	//Now render the texture target to our screen, but upside down
-	SDL_RenderCopy(g->renderer, self->icon_g, NULL, &icon_rect);
+	SDL_RenderCopy(g->renderer, self->icon_g, &icon_crop, &icon_rect);
 }
