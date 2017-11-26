@@ -21,9 +21,10 @@ void graphics_init(struct graphics* self)
 	repaint(self);
 
 	TTF_Init();
-	self->fonts[FONT_LARGE] = TTF_OpenFont("res/overpass-bold.otf", 45);
-	self->fonts[FONT_WRAP]  = TTF_OpenFont("res/overpass.otf", 32);
-	self->fonts[FONT_SMALL] = TTF_OpenFont("res/overpass.otf", 20);
+	char* font = "res/inter-ui.ttf";
+	self->fonts[FONT_LARGE] = TTF_OpenFont("res/inter-ui-bold.ttf", 45);
+	self->fonts[FONT_WRAP]  = TTF_OpenFont(font, 29);
+	self->fonts[FONT_SMALL] = TTF_OpenFont(font, 17);
 	
 	if (self->fonts[FONT_LARGE] == NULL || self->fonts[FONT_SMALL] == NULL)
 	{
@@ -51,7 +52,7 @@ void drawText_adv(struct graphics* self, int x, int y, int size, char* text)
 
 	SDL_Surface* surfaceMessage;
 	if (size == FONT_WRAP)
-		surfaceMessage = TTF_RenderText_Blended_Wrapped(self->fonts[FONT_WRAP], text, white, 490);
+		surfaceMessage = TTF_RenderText_Blended_Wrapped(self->fonts[FONT_WRAP], text, white, 460);
 	else
 		surfaceMessage = TTF_RenderText_Blended(self->fonts[size], text, white);
 

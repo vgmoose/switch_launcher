@@ -66,6 +66,10 @@ void render_tile(struct tile* self, struct graphics* g, int selected)
 		// offset the position a bit so that it grows from the center
 		xyOffset = -1*((app_width - ICON_WIDTH)/2);
 	}
+	
+	// if the x position is going to be offscreen, don't draw it
+	if (self->x > 1280)
+		return;
 
 	// line view uses 140x140 icons, cropped out of the center
 	SDL_Rect icon_rect = {.x = self->x + xyOffset, .y = YOFFSET + xyOffset, .w = app_width, .h = app_width};
