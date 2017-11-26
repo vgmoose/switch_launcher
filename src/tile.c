@@ -40,6 +40,14 @@ void update_position(struct tile* self, int selected)
 		// positive offset to the right, negative to the left
 		self->x += (self->index > selected)*xOff - (self->index < selected)*xOff;
 	}
+	
+	// offset the xyOffset even more, if the selected index is greater than
+	// the amount of tiles that fit on the screen
+	int TILES_ONSCREEN = 6; //TODO: not hardcode this
+	int xOffset = 0;
+	if (selected > TILES_ONSCREEN)
+		self->x -= (SPACE_BETWEEN_ICONS + ICON_WIDTH) * (selected - TILES_ONSCREEN);
+
 }
 
 int is_valid_app(struct dirent* entry)
@@ -55,8 +63,8 @@ void render_tile(struct tile* self, struct graphics* g, int selected)
 
 	update_position(self, selected);
 
-	int xyOffset = 0;
-
+	int scaleOffset = 0;
+	
 	int app_width = ICON_WIDTH;
 	if (active)
 	{
@@ -64,15 +72,15 @@ void render_tile(struct tile* self, struct graphics* g, int selected)
 		app_width *= ICON_ACTIVE_SCALE;
 
 		// offset the position a bit so that it grows from the center
-		xyOffset = -1*((app_width - ICON_WIDTH)/2);
+		scaleOffset = -1*((app_width - ICON_WIDTH)/2);
 	}
 	
 	// if the x position is going to be offscreen, don't draw it
-	if (self->x > 1280)
-		return;
+	if (self->x + ICON_WIDTH < 0 || self->x > 1280)
+		return;		 
 
 	// line view uses 140x140 icons, cropped out of the center
-	SDL_Rect icon_rect = {.x = self->x + xyOffset, .y = YOFFSET + xyOffset, .w = app_width, .h = app_width};
+	SDL_Rect icon_rect = {.x = self->x + scaleOffset, .y = YOFFSET + scaleOffset, .w = app_width, .h = app_width};
 	
 	SDL_Rect icon_crop = {.x = (FULL_ICON_WIDTH - ICON_WIDTH*1.5)/2, .y = (FULL_ICON_HEIGHT - ICON_WIDTH*1.5)/2, .w = ICON_WIDTH*1.5, .h = ICON_WIDTH*1.5};
 	
