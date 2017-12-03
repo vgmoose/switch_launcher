@@ -1,0 +1,136 @@
+<html>
+  <head></head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      
+      // implementation based on https://gamedevelopment.tutsplus.com/tutorials/make-a-splash-with-dynamic-2d-water-effects--gamedev-236
+
+      var SCREEN_WIDTH = 960,
+          SCREEN_HEIGHT = 320,
+          // number of "springs" across the water surface (more springs = better resolution)
+          WATER_RESOLUTION = SCREEN_WIDTH / 5,
+          // starting water level
+          WATER_LEVEL = SCREEN_HEIGHT / 2,
+          // spring settings
+          TENSION = 0.025,
+          DAMPENING = 0.015,
+          SPREAD = 0.25;
+
+      canvas.width = SCREEN_WIDTH;
+      canvas.height = SCREEN_HEIGHT;
+
+      class spring {
+        constructor(x, y, speed) {
+          this.x = x;
+          this.y = y;
+          this.target = y;
+          this.speed = speed;
+        }
+        update(dampening, tension) {
+          var dist = this.target - this.y;
+          this.speed += tension * dist - this.speed * dampening;
+          this.y += this.speed;
+        }
+      }
+
+      class wave {
+        constructor(fillStyle) {
+          this.springs = [];
+          for (var i = 0; i < WATER_RESOLUTION; i++) {
+            var x = (SCREEN_WIDTH / (WATER_RESOLUTION - 1)) * i;
+            this.springs.push(new spring(x, WATER_LEVEL, 0));
+          }
+          this.fillStyle = fillStyle;
+        }
+        update() {
+          var springs = this.springs;
+          var count = this.springs.length;
+
+          for (var i = 0; i < count; i++) {
+            springs[i].update(DAMPENING, TENSION);
+          }
+        
+          var lDeltas = new Array(count);
+          var rDeltas = new Array(count);
+          for (var j = 0; j < 8; j++) {
+            for (var i = 0; i < count; i++) {
+              if (i > 0) {
+                lDeltas[i] = SPREAD * (springs[i].y - springs[i - 1].y);
+                springs[i - 1].speed += lDeltas[i];
+              }
+              if (i < count - 1) {
+                rDeltas[i] = SPREAD * (springs[i].y - springs[i + 1].y);
+                springs[i + 1].speed += rDeltas[i];
+              }
+            }
+            for (var i = 0; i < count; i++) {
+              if (i > 0) {
+                springs[i - 1].y += lDeltas[i];
+              }
+              if (i < count - 1) {
+                springs[i + 1].y += rDeltas[i];
+              }
+            }
+          }
+        }
+        draw(ctx) {
+          // start drawing the top edge of the wave shape using values from the springs
+          ctx.beginPath();
+          for (let i = 0; i < this.springs.length; i++) {
+            var x = this.springs[i].x;
+            var y = this.springs[i].y;
+            if (i == 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+          // add bottom right and left corners to the wave shape
+          ctx.lineTo(SCREEN_WIDTH, SCREEN_HEIGHT);
+          ctx.lineTo(0, SCREEN_HEIGHT);
+          // close the shape path and fill it with the wave's color
+          ctx.globalAlpha = 0.25;
+          ctx.fillStyle = this.fillStyle;
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      function clear() {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#2D3742";
+        ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+      };
+
+      // create waves
+      var waves = [
+        new wave("#7A77EF"),
+        new wave("#77B5EF"),
+        new wave("#77EFCA"),
+        new wave("#758ED1"),
+        new wave("#77D8EF"),
+      ];
+
+      function splash(springIndex, value) {
+        for (var i = 0; i < waves.length; i++) {
+          waves[i].springs[springIndex].y += value;
+        }
+      };
+
+      function main() {
+        clear();
+        for (var i = 0; i < waves.length; i++) {
+          waves[i].update();
+          waves[i].draw(ctx);
+        }
+        requestAnimationFrame(main);
+      };
+
+      requestAnimationFrame(main);
+
+    </script>
+  </body>
+</html>
