@@ -9,8 +9,9 @@ addons:
       - libsdl2-dev
       - libsdl2-image-dev
       - libsdl2-ttf-dev
+      - libsdl2-gfx-dev
 before_script:
   # macos specific stuff
   - "if [ ${TRAVIS_OS_NAME} = 'osx' ]; then brew update;
-     brew install sdl2 sdl2_image sdl2_ttf; fi"
+     brew install sdl2 sdl2_image sdl2_ttf sdl2_gfx; fi"
 script:  make

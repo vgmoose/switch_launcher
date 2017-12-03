@@ -5,6 +5,7 @@ This is an open source template for a Switch inspired homebrew app launcher.  It
 ### Dependencies
 - SDL2, SDL2_image (libpng, zlib), SDL2_ttf (freetype, bz2)
 - jsmn (included) json library
+- optional: SDL2_gfx (for homebrew "waves")
 
 ### App info
 App bundles should go in the "apps" folder relative to the main binary.

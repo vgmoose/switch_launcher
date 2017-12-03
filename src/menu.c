@@ -3,6 +3,7 @@
 #include "menu.h"
 #include "utils.h"
 #include "tile.h"
+#include "wavesim.h"
 
 void menu_init(struct menu* self)
 {
@@ -15,6 +16,10 @@ void menu_init(struct menu* self)
 	// no selected app by default
 	self->apps_count = 0;
 	self->selected = -1;
+	
+	// optional: setup waves TODO: move out of menu class
+	self->wave = malloc(sizeof(struct wave));
+	wave_init(self->wave, 0x7a, 0x77, 0xef);
 }
 
 void list_apps(struct menu* self, struct graphics* g)
@@ -156,8 +161,12 @@ void render_menu(struct menu* self, struct graphics* g)
 	// clear the rendering canvas
 	clear(g);
 	
+	// OPTIONAL: draw the waves
+	wave_update(self->wave);
+	wave_draw(self->wave, g);
+	
 	int xIn = 201;
-	int yIn = 155;
+	int yIn = 130;
 
 	// draw the text of the selected app
 	drawText_adv(g, xIn, yIn, FONT_LARGE, self->name);

@@ -14,9 +14,6 @@ void graphics_init(struct graphics* self)
 	//Detach the texture
 	SDL_SetRenderTarget(self->renderer, NULL);
 
-	// Draw background color
-	SDL_SetRenderDrawColor(self->renderer, 0x31, 0x39, 0x44, 255);
-
 	// commit the changes
 	repaint(self);
 
@@ -39,6 +36,9 @@ void clear(struct graphics* self)
 
 void repaint(struct graphics* self)
 {
+	// Draw background color
+	SDL_SetRenderDrawColor(self->renderer, 0x31, 0x39, 0x44, 255);
+	
 	SDL_RenderPresent(self->renderer);
 }
 

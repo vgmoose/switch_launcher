@@ -14,6 +14,8 @@ struct menu
 
 	struct tile* apps;		// array of apps along the bottom
 	int apps_count;			// number of total apps (tiles)
+	
+	struct wave* wave;		// wave TODO: move out
 };
 
 void display_app(struct menu* self);
