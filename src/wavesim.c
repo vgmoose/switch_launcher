@@ -98,3 +98,9 @@ void wave_draw(struct wave* self, struct graphics* graphics)
 	free(pointsX);
 	free(pointsY);
 }
+
+void wave_splash(struct wave* self, int springIndex, int value)
+{
+	// start a splash with the given value, at the given index
+	self->springs[springIndex].y = value;
+}

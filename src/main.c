@@ -35,20 +35,24 @@ int main(int argc, char **argv)
 	signal(SIGINT, intHandler);
 
 	SDL_Event event;
+	int lastEvent;
 
 	int running = 1;
 
 	while (running)
 	{
-		SDL_WaitEvent(&event);
+		SDL_Delay(16);
+		SDL_PollEvent(&event);
+		// SDL_WaitEvent(&event);
 
 		if (event.type == SDL_QUIT)
 			running = 0;
 
-		if (event.type == SDL_KEYDOWN)
+		if (event.type == SDL_KEYDOWN && lastEvent != SDL_KEYDOWN)
 			process_key(&main_menu, event.key.keysym.sym);
 
 		render_menu(&main_menu, &g);
+		lastEvent = event.type;
 	}
 
 	return 0;

@@ -198,6 +198,15 @@ void render_menu(struct menu* self, struct graphics* g)
 
 void process_key(struct menu* self, int keycode)
 {
+	// less than sign simulates snapping from left
+	if (keycode == SDLK_1)
+		wave_splash(self->wave, 0, WAVE_HEIGHT);
+
+	// greater than sign simulates snapping from right
+	if (keycode == SDLK_2)
+		wave_splash(self->wave, self->wave->springs_len-1, WAVE_HEIGHT);
+
+	// left/right input processing for line view
 	int selected = self->selected - (keycode == SDLK_LEFT) + (keycode == SDLK_RIGHT);
 
 	// updated selected index if it's within valid bounds

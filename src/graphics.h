@@ -13,7 +13,8 @@
 struct graphics
 {
 	SDL_Window* window;		// main window
-	SDL_Renderer* renderer;		// main canvas	
+	SDL_Renderer* renderer;		// main canvas
+	int frame;			// current animation frame	
 	TTF_Font* fonts[3];
 };
 

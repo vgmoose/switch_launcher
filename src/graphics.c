@@ -27,6 +27,8 @@ void graphics_init(struct graphics* self)
 	{
 		printf("[WARNING] Couldn't find res/overpass.otf or res/overpass-bold.otf! For now these files are required to display text.\n");
 	}
+
+	self->frame = 0;
 }
 
 void clear(struct graphics* self)
@@ -64,6 +66,9 @@ void drawText_adv(struct graphics* self, int x, int y, int size, char* text)
 	SDL_RenderCopy(self->renderer, message, NULL, &message_rect);
 
 	SDL_FreeSurface(surfaceMessage);
+
+	// increment the current animation frame
+	self->frame ++;
 }
 
 void drawText(struct graphics* self, int x, int y, char* text)
