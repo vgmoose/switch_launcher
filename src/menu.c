@@ -3,7 +3,6 @@
 #include "menu.h"
 #include "utils.h"
 #include "tile.h"
-#include "wavesim.h"
 
 void menu_init(struct menu* self)
 {
@@ -18,8 +17,8 @@ void menu_init(struct menu* self)
 	self->selected = -1;
 	
 	// optional: setup waves TODO: move out of menu class
-	self->wave = malloc(sizeof(struct wave));
-	wave_init(self->wave, 0x7a, 0x77, 0xef);
+	self->manager = malloc(sizeof(struct WaterBoi));
+	WaterBoi_init(self->manager);
 }
 
 void list_apps(struct menu* self, struct graphics* g)
@@ -162,8 +161,7 @@ void render_menu(struct menu* self, struct graphics* g)
 	clear(g);
 	
 	// OPTIONAL: draw the waves
-	wave_update(self->wave);
-	wave_draw(self->wave, g);
+	WaterBoi_draw(self->manager, g);
 	
 	int xIn = 201;
 	int yIn = 130;
@@ -199,12 +197,12 @@ void render_menu(struct menu* self, struct graphics* g)
 void process_key(struct menu* self, int keycode)
 {
 	// less than sign simulates snapping from left
-	if (keycode == SDLK_1)
-		wave_splash(self->wave, 0, WAVE_HEIGHT);
+//	if (keycode == SDLK_1)
+//		wave_splash(self->wave, 0, WAVE_HEIGHT);
 
 	// greater than sign simulates snapping from right
-	if (keycode == SDLK_2)
-		wave_splash(self->wave, self->wave->springs_len-1, WAVE_HEIGHT);
+//	if (keycode == SDLK_2)
+//		wave_splash(self->wave, self->wave->springs_len-1, WAVE_HEIGHT);
 
 	// left/right input processing for line view
 	int selected = self->selected - (keycode == SDLK_LEFT) + (keycode == SDLK_RIGHT);

@@ -2,6 +2,7 @@
 #include "../jsmn/jsmn.h"
 #include "tile.h"
 #include "graphics.h"
+#include "waterboi.h"
 
 #pragma once
 
@@ -15,7 +16,8 @@ struct menu
 	struct tile* apps;		// array of apps along the bottom
 	int apps_count;			// number of total apps (tiles)
 	
-	struct wave* wave;		// wave TODO: move out
+//	struct wave* wave;		// wave TODO: move out
+    struct WaterBoi* manager;
 };
 
 void display_app(struct menu* self);

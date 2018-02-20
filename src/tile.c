@@ -4,6 +4,7 @@
 #include "utils.h"
 #include <SDL2/SDL_image.h>
 
+
 void tile_init(struct tile* self, struct graphics* g, char* path, int index)
 {
 	// set path for this app
